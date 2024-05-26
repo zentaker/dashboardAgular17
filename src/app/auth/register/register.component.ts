@@ -8,6 +8,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import firebase from 'firebase/compat';
 import { environment } from '../../../enviroments/enviroment';
 import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -53,15 +54,33 @@ export class RegisterComponent implements OnInit{
   onSubmit() {
     // Verifica si el formulario es válido
     if (this.registroForm.valid) {
+
+Swal.fire({
+  title: "Espere por favor",
+
+  didOpen: () => {
+    Swal.showLoading();
+    
+  }
+})
       const {nombre, correo, password} = this.registroForm.value;
       this.authService.crearusuario(nombre,correo, password).then(
         credenciales => {
           console.log(credenciales);
+          Swal.close();
           this.router.navigate(['/'])
         }
-      ).catch(err => console.error(err))
+      ).catch(err => {
+        console.error(err)
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message
+        });
+      })
     } else {
       console.log('Formulario no válido');
+      
     }
   }
 
