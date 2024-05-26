@@ -4,6 +4,7 @@ import { RouterModule} from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../enviroments/enviroment';
+import { AuthService } from './services/auth.service';
 
 
 @Component({
@@ -20,4 +21,8 @@ import { environment } from '../enviroments/enviroment';
 })
 export class AppComponent {
   title = 'dashboard';
+  constructor(private authService: AuthService){
+    this.authService.initAuthListener();
+
+  }
 }
