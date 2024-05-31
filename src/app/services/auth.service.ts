@@ -15,6 +15,12 @@ import { Subject, Subscription } from 'rxjs';
 export class AuthService {
   //creacion de la subscripcion
   private firestoreSubscription: Subscription = new Subscription();
+  private _user: Usuario | null = null;
+
+  get user(){
+    return {...this._user};//desestructurin para proteger integridad y no ser cambiado desde afueraa
+    
+  }
   
 
   constructor(
@@ -38,11 +44,16 @@ export class AuthService {
                 console.log('Firestore user:', firestoreUser);
                 //convertir el documento de firestore a un obejto Usuario
                 const user = Usuario.fromFirebase(firestoreUser);
+                
+                this._user = user;
+
                 //despachar una accion para establecer el usuario en el store ngrx
                 this.store.dispatch(authActions.setUser({ user }));
               }
             });
         } else {
+          this._user = null;
+
           // Si no hay un usuario autenticado (fuser es null).
           console.log('no user found');
           // Despachar una acción para quitar el usuario del store de NgRx.
