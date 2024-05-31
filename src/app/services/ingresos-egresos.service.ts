@@ -23,4 +23,15 @@ export class IngresosEgresosService {
     .catch(err => console.warn(err))
 
   }
+  initIngresosEgresosListener(uid: string){
+    this.firestore.collection(`${uid}/ingresos-egresos/items`)
+    
+    .snapshotChanges()
+    .subscribe(algo => {
+      console.log(algo);
+    })
+
+  }
+
+
 }

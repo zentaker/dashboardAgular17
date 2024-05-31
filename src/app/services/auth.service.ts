@@ -19,7 +19,7 @@ export class AuthService {
 
   get user(){
     return {...this._user};//desestructurin para proteger integridad y no ser cambiado desde afueraa
-    
+
   }
   
 
@@ -34,14 +34,14 @@ export class AuthService {
     //subscribirse a; obserbable authstate(firebase) para escuchar cambios de estado de autentificacion
     this.auth.authState.subscribe(fuser => {
       //si hay un usuario autentificaco (fuser no es null)
-        console.log('Hay un usuario', fuser);
+        //console.log('Hay un usuario', fuser);
 
         if (fuser) {
           // Si existe un usuario autenticado, suscribirse a los cambios del documento del usuario en Firestore.
           this.firestoreSubscription = this.firestore.doc(`${fuser.uid}/usuario`).valueChanges()
             .subscribe(firestoreUser => {
               if (firestoreUser) {
-                console.log('Firestore user:', firestoreUser);
+                //console.log('Firestore user:', firestoreUser);
                 //convertir el documento de firestore a un obejto Usuario
                 const user = Usuario.fromFirebase(firestoreUser);
                 
